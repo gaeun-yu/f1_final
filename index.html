@@ -262,7 +262,7 @@
       position: absolute;
       top: 0;
       width: 6px;
-      height: 3000px; /* 도로 길이 늘림 */
+      height: 3000px; 
       background-image: repeating-linear-gradient(
         to bottom,
         white,
@@ -395,7 +395,7 @@
     top: 0; left: 0;
     width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.6);
-    display: none; /* 기본은 숨김 */
+    display: none; 
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -413,7 +413,7 @@
   }
   .modal-content {
     position: relative;
-    width: 800px;  /* ↓ 크기 줄임 */
+    width: 800px;  
     max-height: 90vh;
     background: #E8022E;
     padding: 40px;
@@ -964,8 +964,8 @@
   {
     team: 'ASTON_MARTIN',
     color: '#01594E',
-    left: { name: '페르난도 알론소', img: './aston1.webp' },   // ✅ 수정됨
-    right: { name: '랜스 스트롤', img: './aston2.webp' },        // ✅ 수정됨
+    left: { name: '페르난도 알론소', img: './aston1.webp' },  
+    right: { name: '랜스 스트롤', img: './aston2.webp' },     
     car: 'astoncar.webp'
   },
   {
@@ -1017,7 +1017,7 @@
     card.innerHTML = `<img src="${team.logo}" alt="${team.name}">`;
     teamGrid.appendChild(card);
 
-    // 모달 생성
+    
     const modal = document.createElement('div');
     modal.className = 'team-modal';
     modal.id = `${team.id}-modal`;
@@ -1097,10 +1097,9 @@ document.querySelectorAll('.team-select-btn').forEach(btn => {
   window.addEventListener('DOMContentLoaded', () => {
     const bgm = document.getElementById('bgm');
 
-    // 사용자가 어떤 동작을 한 후 재생되도록 (브라우저 정책 회피)
     document.addEventListener('click', () => {
       if (bgm.paused) {
-        bgm.volume = 0.3; // 볼륨 조절 가능 (0 ~ 1)
+        bgm.volume = 0.3; 
         bgm.play().catch(e => console.log('BGM autoplay blocked:', e));
       }
     }, { once: true });
