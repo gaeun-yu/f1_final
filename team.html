@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>F1 25</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      text-align: center;
+      font-family: 'Pretendard', sans-serif;
+    }
+    
+    .driver-preview-section h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 38px;
+    }
+    .section-title h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 70px;
+      color: white;
+      margin-bottom: 10px;
+    }
+    .section-title p {
+      font-size: 20px;
+      color: #ccc;
+      font-family: 'Pretendard', sans-serif;
+    }
+    #team-logo {
+      padding-top: 60px;
+      width: 200px;
+      margin: 40px auto;
+      display: block;
+    }
+    .driver-preview-section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .driver-preview-container {
+      display: flex;
+      justify-content: center;
+      gap: 100px;
+      margin-top: 40px;
+    }
+    .driver-box img {
+      width: 280px;
+      height: 280px;
+      object-fit: contain;
+    }
+    .driver-box p {
+      margin-top: 12px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .circuit-section {
+      padding: 100px 20px;
+      background-color: black;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+    .circuit-slider-wrapper {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .circuit-slider {
+      display: flex;
+      width: max-content;
+      animation: slide-left 30s linear infinite;
+      gap: 40px;
+      padding-top: 100px;
+    }
+    @keyframes slide-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .circuit-card {
+      width: 500px;
+      height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      overflow: hidden;
+      background-color: #222;
+      border-radius: 12px;
+    }
+    .circuit-card img {
+      flex-shrink: 0;
+      width: 100%;
+      height: 220px;
+      object-fit: contain;
+      margin-top: 20px;
+    }
+    .circuit-card:hover {
+      transform: scale(1.05);
+    }
+    .circuit-info {
+      padding: 20px;
+    }
+    .circuit-name {
+      margin-top: 50px;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .circuit-country {
+      font-size: 16px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <img id="team-logo" src="" alt="Team Logo">
+  <h1>팀 선택이 완료되었습니다!</h1>
+  <section class="driver-preview-section">
+    <h2>TEAM DRIVERS</h2>
+    <div class="driver-preview-container">
+      <div class="driver-box">
+        <img id="driver1-img" src="" alt="Driver 1">
+        <p id="driver1-name"></p>
+      </div>
+      <div class="driver-box">
+        <img id="driver2-img" src="" alt="Driver 2">
+        <p id="driver2-name"></p>
+      </div>
+    </div>
+  </section>
+  <section class="circuit-section" id="circuit">
+    <div class="section-title">
+      <h2>CHOOSE YOUR CIRCUIT</h2>
+      <p>레이스를 펼칠 서킷을 선택하세요</p>
+    </div>
+    <div class="circuit-slider-wrapper">
+      <div class="circuit-slider" id="slider"></div>
+    </div>
+  </section>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const teamId = params.get('team');
+
+    const teamLogos = {
+      mclaren: 'mclaren_white.svg',
+      ferrari: 'ferrari.svg',
+      redbull: 'red_bull.svg',
+      mercedes: 'benz.svg',
+      aston_martin: 'aston_martin.svg',
+      alpine: 'alpine.svg',
+      haas: 'haas.svg',
+      racing_bulls: 'racing_bulls.svg',
+      williams: 'williams.svg',
+      sauber: 'sauber.svg'
+    };
+
+    const driverData = {
+      mclaren: {
+        left: { name: '오스카 피아스트리', img: 'mclaren1.webp' },
+        right: { name: '랜드 노리스', img: 'mclaren2.webp' }
+      },
+      ferrari: {
+        left: { name: '샤를 르클레르', img: 'ferrari1.webp' },
+        right: { name: '루이스 해밀턴', img: 'ferrari2.webp' }
+      },
+      redbull: {
+        left: { name: '막스 베르스타펜', img: 'redbull1.webp' },
+        right: { name: '츠노다 유키', img: 'redbull2.webp' }
+      },
+      mercedes: {
+        left: { name: '조지 러셀', img: 'benz1.webp' },
+        right: { name: '안토넬리 키미', img: 'benz2.webp' }
+      },
+      aston_martin: {
+        left: { name: '페르난도 알론소', img: 'aston1.webp' },
+        right: { name: '랜스 스트롤', img: 'aston2.webp' }
+      },
+      alpine: {
+        left: { name: '피에르 가슬리', img: 'alpine1.webp' },
+        right: { name: '프랑코 콜라핀토', img: 'alpine2.webp' }
+      },
+      haas: {
+        left: { name: '에스테반 오콘', img: 'haas1.webp' },
+        right: { name: '올리버 베어먼', img: 'haas2.webp' }
+      },
+      racing_bulls: {
+        left: { name: '리암 로슨', img: 'racingbulls1.webp' },
+        right: { name: '이삭 하자르', img: 'racingbulls2.webp' }
+      },
+      williams: {
+        left: { name: '알렉산더 알본', img: 'williams1.webp' },
+        right: { name: '카를로스 사인츠', img: 'williams2.webp' }
+      },
+      sauber: {
+        left: { name: '니코 휠켄베르크', img: 'sauber1.webp' },
+        right: { name: '가브리엘 보르톨레토', img: 'sauber2.webp' }
+      }
+    };
+
+    if (teamId && teamLogos[teamId]) {
+      document.getElementById('team-logo').src = teamLogos[teamId];
+    }
+
+    if (teamId && driverData[teamId]) {
+      const d = driverData[teamId];
+      document.getElementById('driver1-img').src = d.left.img;
+      document.getElementById('driver2-img').src = d.right.img;
+      document.getElementById('driver1-name').textContent = d.left.name;
+      document.getElementById('driver2-name').textContent = d.right.name;
+    }
+
+    const circuits = [
+      { name: "Monza", country: "Italy", img: "monza.webp" },
+      { name: "Suzuka", country: "Japan", img: "suzuka.webp" },
+      { name: "Silverstone", country: "UK", img: "silverstone.webp" },
+      { name: "Monaco", country: "Monaco", img: "monaco.webp" },
+      { name: "Interlagos", country: "Brazil", img: "interlagos.webp" },
+      { name: "Marina Bay", country: "Singapore", img: "singapore.webp" },
+      { name: "COTA", country: "USA", img: "austin.webp" }
+    ];
+
+    const slider = document.getElementById('slider');
+    const doubleList = [...circuits, ...circuits];
+
+    doubleList.forEach(circuit => {
+      const card = document.createElement('div');
+      card.className = 'circuit-card';
+      card.innerHTML = `
+        <img src="${circuit.img}" alt="${circuit.name}">
+        <div class="circuit-info">
+          <div class="circuit-name">${circuit.name}</div>
+          <div class="circuit-country">${circuit.country}</div>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        window.location.href = `race.html?circuit=${encodeURIComponent(circuit.name)}&img=${circuit.img}&team=${teamId}`;
+      });
+      slider.appendChild(card); // ✅ 이 줄은 addEventListener 밖에 있어야 함
+    });
+  </script>
+</body>
+</html>

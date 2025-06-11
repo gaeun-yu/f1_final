@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>F1 Race Start</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Pretendard', sans-serif;
+      color: white;
+
+      background: url('background.gif') no-repeat center center;
+      background-size: cover;
+    }
+
+    .container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+
+    .logo {
+      width: 200px;
+      margin-top: 10px;
+    }
+
+
+    .traffic-light {
+      background: #222;
+      padding: 20px 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      display: inline-block;
+    }
+
+    .light-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 10px 0;
+    }
+
+    .start-light {
+      display: grid;
+      grid-template-columns: repeat(5, 40px);
+      grid-template-rows: repeat(2, 40px);
+      gap: 14px 14px;
+      margin: 10px 0;
+    }
+
+    .light {
+      width: 40px;
+      height: 40px;
+      background-color: #222;
+      border-radius: 50%;
+      box-shadow: inset 0 0 8px #000;
+      transition: background-color 0.3s ease;
+    }
+
+    .light.active {
+      background-color: red;
+      box-shadow: 0 0 10px red;
+    }
+
+    .cars {
+      position: relative;
+      width: 100%;
+      height: 500px;
+    }
+
+    .car {
+      position: absolute;
+      left: 60px; /* ✅ 좌측 정렬 */
+      width: 160px;
+      transition: left 1s ease-out;
+    }
+
+    .car:nth-child(1) { top: 20px; }
+    .car:nth-child(2) { top: 70px; }
+    .car:nth-child(3) { top: 120px; }
+    .car:nth-child(4) { top: 170px; }
+    .car:nth-child(5) { top: 220px; }
+    .car:nth-child(6) { top: 270px; }
+    .car:nth-child(7) { top: 320px; }
+    .car:nth-child(8) { top: 370px; }
+    .car:nth-child(9) { top: 420px; }
+    .car:nth-child(10) { top: 470px; }
+
+    .player {
+      z-index: 5;
+      filter: drop-shadow(0 0 10px #0f0);
+    }
+    .rule-modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .rule-modal-content {
+      background: white;
+      color: black;
+      padding: 40px 60px;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 20px;
+      width: 600px;
+      max-width: 90%;
+    }
+
+    .rule-modal-content h2 {
+      margin-bottom: 20px;
+    }
+
+    .rule-modal-content p {
+      text-align: center;
+      line-height: 140%; 
+      margin-bottom: 30px;
+    }
+
+    .rule-modal-content button {
+      padding: 14px 28px;
+      font-size: 18px;
+      font-weight: bold;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .cars {
+      position: relative;
+      width: 100%;
+      height: 550px;
+      background-image: url('road_texture.jpg'); /* 도로 배경 이미지 파일 */
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+    .home-btn {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #ffffff20;
+      color: white;
+      border: 1px solid white;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 9999;
+      font-family: 'Pretendard', sans-serif;
+      transition: all 0.2s ease;
+    }
+    .home-btn:hover {
+      background-color: white;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <button class="home-btn" onclick="location.href='index.html'">Home</button>
+  <div class="container">
+    <img src="f1.svg" class="logo" alt="F1 Logo" />
+    <div class="lights-wrapper">
+      <div class="traffic-light">
+        <div class="light-row">
+          <div class="light" id="light1"></div>
+          <div class="light" id="light2"></div>
+          <div class="light" id="light3"></div>
+          <div class="light" id="light4"></div>
+          <div class="light" id="light5"></div>
+        </div>
+        <div class="light-row">
+          <div class="light" id="light6"></div>
+          <div class="light" id="light7"></div>
+          <div class="light" id="light8"></div>
+          <div class="light" id="light9"></div>
+          <div class="light" id="light10"></div>
+        </div>
+      </div>
+    </div>
+    <div class="cars" id="cars-container"></div>
+  </div>
+  <div class="rule-modal" id="ruleModal">
+  <div class="rule-modal-content">
+    <h2>🏁 게임 규칙 안내</h2>
+      <p>총 10대의 F1 자동차가 출발 준비 중입니다.<br>
+      신호등이 모두 꺼진 후, 스페이스바를 눌러 당신의 자동차를 출발시키세요!<br>
+      모든 자동차가 결승선을 넘으면 경기가 종료됩니다.</p>
+    <button onclick="startGame()">게임 시작</button>
+  </div>
+</div>
+  <script>
+  const params = new URLSearchParams(window.location.search);
+const selectedTeam = params.get('team') || 'mclaren';
+
+const teamCarMap = {
+  mclaren: 'mclarencar.webp',
+  ferrari: 'ferraricar.webp',
+  redbull: 'redbullcar.webp',
+  mercedes: 'benzcar.webp',
+  aston_martin: 'astoncar.webp',
+  alpine: 'alpinecar.webp',
+  haas: 'haascar.webp',
+  racing_bulls: 'racingbullscar.webp',
+  williams: 'williamscar.webp',
+  sauber: 'saubercar.webp'
+};
+
+const carTeamNameMap = {
+  'mclarencar.webp': 'McLaren',
+  'ferraricar.webp': 'Ferrari',
+  'redbullcar.webp': 'Red Bull',
+  'benzcar.webp': 'Mercedes',
+  'astoncar.webp': 'Aston Martin',
+  'alpinecar.webp': 'Alpine',
+  'haascar.webp': 'Haas',
+  'racingbullscar.webp': 'Racing Bulls',
+  'williamscar.webp': 'Williams',
+  'saubercar.webp': 'Sauber'
+};
+
+const carsContainer = document.getElementById('cars-container');
+const carImages = Object.values(teamCarMap);
+let finishOrder = [];
+let raceEnded = false;
+
+carImages.forEach(img => {
+  const car = document.createElement('img');
+  car.src = img;
+  car.className = 'car';
+  if (img === teamCarMap[selectedTeam]) {
+    car.classList.add('player');
+    car.dataset.team = 'You (' + carTeamNameMap[img] + ')';
+  } else {
+    car.dataset.team = carTeamNameMap[img];
+  }
+  carsContainer.appendChild(car);
+});
+
+const lightPairs = [
+  ['light1', 'light6'],
+  ['light2', 'light7'],
+  ['light3', 'light8'],
+  ['light4', 'light9'],
+  ['light5', 'light10']
+];
+
+function startLights() {
+  lightPairs.forEach((pair, i) => {
+    setTimeout(() => {
+      pair.forEach(id => {
+        document.getElementById(id).classList.add('active');
+      });
+    }, i * 1000);
+  });
+
+  setTimeout(() => {
+    lightPairs.flat().forEach(id => {
+      document.getElementById(id).classList.remove('active');
+    });
+    document.dispatchEvent(new Event('lightsout'));
+  }, 6000);
+}
+
+function startGame() {
+  document.getElementById('ruleModal').style.display = 'none';  // 모달 숨기기
+  setTimeout(startLights, 500);  // 약간 여유를 두고 신호등 시작
+}
+
+// 게임 시작 후 스페이스바 입력 처리
+document.addEventListener('lightsout', () => {
+  let raceStart = Date.now();
+  const cars = document.querySelectorAll('.car');
+  const finishLine = window.innerWidth - 180;
+
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') {
+      const playerCar = document.querySelector('.car.player');
+      if (!playerCar || raceEnded) return;
+
+      let interval = setInterval(() => {
+        let current = parseInt(playerCar.style.left || '60');
+        let next = current + 30; // 속도 증가
+        playerCar.style.left = `${next}px`;
+        if (next >= finishLine) {
+          clearInterval(interval);
+          const elapsed = (Date.now() - raceStart) / 1000;
+          finishOrder.push({ team: playerCar.dataset.team, time: elapsed });
+          checkRaceEnd();
+        }
+      }, 20);
+    }
+  });
+
+  // AI 차량 출발
+  cars.forEach(car => {
+    if (!car.classList.contains('player')) {
+      const delay = 100 + Math.random() * 500; // 0.3~1.3초 딜레이
+      setTimeout(() => {
+        let interval = setInterval(() => {
+          let current = parseInt(car.style.left || '60');
+          let next = current + (12 + Math.random() * 30); // 속도 증가
+          car.style.left = `${next}px`;
+          if (next >= finishLine) {
+            clearInterval(interval);
+            const elapsed = (Date.now() - raceStart) / 1000;
+            finishOrder.push({ team: car.dataset.team, time: elapsed });
+            checkRaceEnd();
+          }
+        }, 25);
+      }, delay);
+    }
+  });
+});
+
+function checkRaceEnd() {
+  if (finishOrder.length === 10 && !raceEnded) {
+    raceEnded = true;
+    finishOrder.sort((a, b) => a.time - b.time);
+    let message = '🏁 레이스 결과:\n\n';
+    finishOrder.forEach((entry, i) => {
+      message += `${i + 1}등 - ${entry.team} (${entry.time.toFixed(2)}초)\n`;
+    });
+    setTimeout(() => alert(message), 1200);
+  }
+}
+// 처음에는 게임 시작 안 함
+let gameReady = false;
+
+function startGame() {
+  document.getElementById('ruleModal').style.display = 'none';
+  gameReady = true;
+  startLights(); // 기존 신호등 함수 실행
+}
+
+// 스페이스바 눌렀을 때는 lightsOut && gameReady 조건 체크
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && lightsOut && gameReady && !hasStarted) {
+    hasStarted = true;
+    // 자동차 이동 코드...
+  }
+});
+</script>
+</body>
+</html>

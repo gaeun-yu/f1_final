@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>F1 25 Landing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Pretendard', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: black;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: black;
+      padding: 24px 60px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 40px;
+      z-index: 10;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: opacity 0.3s;
+    }
+
+    nav a:hover {
+      opacity: 0.6;
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background: url('thumb.png') no-repeat center center;
+      background-size: cover;
+    }
+
+    .start-btn {
+      position: absolute;
+      bottom: 80px;
+      left: 80px;
+      padding: 16px 48px;
+      font-size: 28px;
+      border: 2px solid white;
+      border-radius: 40px;
+      background: transparent;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .start-btn:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: scale(1.05);
+    }
+
+    @media screen and (max-width: 768px) {
+      nav {
+        justify-content: center;
+        padding: 16px 30px;
+        gap: 20px;
+      }
+
+      .start-btn {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 60px;
+      }
+    }
+
+    .about-section {
+      width: 100%;
+      height: 100vh;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+
+    .about-section h2 {
+      font-size: 40px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .about-section img {
+      width: 900px;
+      margin-bottom: 30px;
+    }
+
+    .about-section p {
+      font-size: 24px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+      margin-top: 60px;
+    }
+
+    .about-section a {
+      color: #999;
+      font-size: 14px;
+      text-decoration: underline;
+      margin-top: 16px;
+    }
+
+    .blurred-intro {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .background-blur {
+      background: url('race_redbull.gif') no-repeat center center;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .intro-text {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      font-family: 'Pretendard', sans-serif;
+      padding: 0 20px;
+      text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .howto-section {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .howto-step {
+      font-size: 20px;
+      color: #ffc107;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 100px;
+    }
+
+    .howto-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 70px;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .howto-subtitle {
+      font-size: 20px;
+      color: #ccc;
+      margin-top: 8px;
+      font-weight: 400;
+    }
+
+    .howto-description {
+      background: white;
+      color: black;
+      font-size: 20px;
+      line-height: 1.6;
+      padding: 40px 60px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 80px;
+      margin-bottom: 140px;
+    }
+
+    .howto-image-block {
+      position: relative;
+      margin: 80px auto;
+      width: 800px; 
+      border-radius: 10px;
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: all 0.8s ease;
+    }
+
+    .howto-image-block.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .howto-image-block img {
+      width: 100%;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .howto-image-block:hover img {
+      transform: scale(1.05);
+    }
+
+    .howto-caption {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+      padding: 30px 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .howto-final-text {
+      font-size: 20px;
+      color: white;
+      line-height: 1.6;
+      max-width: 1000px;
+      margin: 40px auto;
+      text-align: center;
+    }
+    .f1-road-section {
+      position: relative;
+      width: 100%;
+      background-color: black;
+      overflow: hidden;
+    }
+
+    .road-line {
+      margin-top: 400px;
+      position: absolute;
+      top: 0;
+      width: 6px;
+      height: 3000px; /* 도로 길이 늘림 */
+      background-image: repeating-linear-gradient(
+        to bottom,
+        white,
+        white 20px,
+        transparent 20px,
+        transparent 40px
+      );
+      z-index: 1;
+    }
+
+    .road-line.left {
+      left: 80px;
+    }
+
+    .road-line.right {
+      right: 80px;
+    }
+
+    .f1-car {
+      position: absolute;
+      width: 150px;
+      height: auto;
+      top: 400px;
+      z-index: 10;
+      transform: rotate(90deg);
+    }
+
+    .f1-car.animate {
+      animation: drive-down 8s linear infinite;
+    }
+
+    .left-car {
+      left: 6px; 
+    }
+
+    .right-car {
+      right: 6px; 
+    }
+    @keyframes drive-down {
+  0% {
+    top: 400px;
+  }
+  100% {
+    top: 3000px; 
+  }
+}
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .howto-image-block:hover .image-overlay {
+    opacity: 1;
+  }
+
+  .overlay-text {
+    color: white;
+    font-size: 18px;
+    padding: 20px;
+    line-height: 1.5;
+    max-width: 90%;
+    pointer-events: auto;
+  }
+  .team-section {
+    padding: 100px 20px;
+    background-color: black;
+    color: white;
+    text-align: center;
+  }
+
+  .section-title .step {
+    color: #ffc107;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .section-title h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 60px;
+    margin-bottom: 10px;
+  }
+
+  .section-title p {
+    font-size: 18px;
+    color: #ccc;
+    margin-bottom: 40px;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 522px);
+    gap: 16px 16px; 
+    justify-content: center;
+  }
+
+  .team-card {
+    width: 522px;
+    height: 205px;
+    padding: 20px 197px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .team-card:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+
+  .team-card img {
+    max-height: 120px;
+    max-width: 120%;
+  }
+  .team-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6);
+    display: none; /* 기본은 숨김 */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    overflow:hidden
+  }
+
+  .team-modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .modal-content {
+    position: relative;
+    width: 800px;  /* ↓ 크기 줄임 */
+    max-height: 90vh;
+    background: #E8022E;
+    padding: 40px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    overflow-y: auto;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: transparent;
+    color: white;
+    font-size: 32px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .team-big-logo {
+    width: 400px;
+    margin: 40px auto 20px;
+    display: block;
+  }
+
+  .team-desc, .team-rank {
+    text-align: center;
+    color: white;
+    font-family: Pretendard;
+  }
+
+  .team-desc {
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 20px auto;
+    max-width: 700px;
+  }
+
+  .team-img {
+    width: 90%;
+    max-width: 600px;
+    display: block;
+    margin: 40px auto;
+  }
+
+  .team-rank {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 20px;
+  }
+  .driver-section {
+    padding: 100px 20px;
+    background: white;
+    color: black;
+    text-align: center;
+  }
+  .driver-list {
+    display: flex;
+    flex-direction: column;
+    gap: 200px;
+    align-items: center;
+  }
+  .driver-box {
+    width: 1060px;
+    height: 298px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .team-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    align-self: flex-start;
+    margin-bottom: 8px;
+  }
+  .driver-bg {
+    width: 1060px;
+    height: 298px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  .driver-img {
+    width: 395px;
+    height: 395px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .driver-name {
+    position: absolute;
+    bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+  }
+  .driver-name.left {
+    left: 10px;
+  }
+  .driver-name.right {
+    right: 350px;
+  }
+  .driver-img.left {
+    position: absolute;
+    left: 90px;
+    bottom: 0;
+  }
+  .driver-img.right {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+ 
+  .car-img {
+    width: 300px;
+    margin-top: -40px;
+    z-index: 2;
+  }
+    @keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(3deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-3deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  .car-img:hover {
+    animation: shake 0.2s infinite;
+    cursor: pointer;
+  }
+
+  @keyframes moveCar {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(100vw); opacity: 0; }
+    51% { transform: translateX(-100vw); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+
+  .car-img.animate {
+    animation: moveCar 1.0s ease-in-out;
+  }
+  .team-select-section {
+    padding: 100px 20px;
+    padding-top: 200px;
+    padding-bottom: 200px;
+    background: black;
+    color: white;
+    text-align: center;
+  }
+  .team-select-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    gap: 40px 60px;
+    justify-content: center;
+    margin-top: 40px;
+    padding-top: 50px;
+  }
+  .team-select-btn {
+    width: 140px;
+    height: 140px;
+    background-color: #222;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .team-select-btn:hover {
+    transform: scale(1.1);
+    background-color: #fff;
+  }
+  .team-select-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .car-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .car-hint {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
+    color: #000;
+    padding: 6px 14px;
+    font-family: 'Orbitron', sans-serif;
+    opacity: 1;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 5;
+    animation: blink 1.5s infinite;
+  }
+    @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+
+  .car-img.animate + .car-hint {
+    opacity: 0;
+  }
+  #mute-btn {
+    position: fixed;
+    top: 80px;
+    right: 40px;
+    z-index: 10000;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  #mute-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+</style>
+</head>
+<body>
+  <audio id="bgm" autoplay>
+  <source src="f1.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+<button id="mute-btn" onclick="toggleMute()">🔊</button>
+   <nav>
+    <a href="#about">ABOUT</a>
+    <a href="#howto">HOW TO PLAY</a>
+    <a href="#f1-team">F1 TEAM</a>
+    <a href="#drivers">DRIVERS</a>
+  </nav>
+
+  <section class="hero">
+    <button class="start-btn" onclick="scrollToAbout()">START</button>
+  </section>
+
+  <section class="about-section" id="about">
+    <h2>ABOUT FORMULA 1</h2>
+    <img src="f1.svg" alt="F1 Logo">
+    <p>국제자동차연맹 FIA에서 주관하고 FOM이 상업적 주관을 하는 국제 자동차 프로 레이싱<br>대회정식 명칭은 FIA Formula One World Championship</p>
+   <a href="https://www.youtube.com/watch?v=xkRXnrvFCY0" target="_blank">
+  이해를 돕기 위한 영상 첨부
+</a>
+  </section>
+  <section class="blurred-intro">
+  <div class="background-blur"></div>
+  <div class="intro-text">
+    지금부터 당신은 F1 세계에 발을 들인 루키입니다.
+  </div>
+</section>
+<section class="howto-section" id="howto">
+    <section class="f1-road-section">
+
+  <section class="howto-section" id="howto">
+    <div class="howto-step">STEP 1</div>
+    <h1 class="howto-title">HOW TO PLAY</h1>
+    <h3 class="howto-subtitle">F1 경기 방식에 대해 알아봅시다</h3>
+
+    <div class="howto-description">
+      <strong>F1 그랑프리(Grand Prix)</strong>는 목요일 기자 회견(프레스 컨퍼런스)을 시작으로 <br>
+      금요일과 토요일에 걸친 연습주행(프리 프랙티스), 토요일 퀄리파잉, 일요일 레이스 순서로 그랑프리가 진행됩니다.
+    </div>
+    <div class="road">
+    <div class="road-line left"></div>
+    <img src="car_ani.png" class="f1-car left-car" alt="F1 car">
+    <div class="road-line right"></div>
+    <img src="car_ani.png" class="f1-car right-car" alt="F1 car">
+  </div>
+
+    <div class="howto-image-block">
+      <img src="press_con.webp" alt="프레스 컨퍼런스"> 
+      <div class="image-overlay">
+      <div class="overlay-text">레이스 주말이 시작되기 전, 목요일에 열리는 공식 인터뷰 세션입니다.<br>FIA가 선정한 드라이버와 팀 관계자들이 언론의 질문에 답하며,<br>최근 경기나 팀 상황에 대한 이야기를 나눕니다.<br>팬들은 이 시간을 통해 드라이버들의 생각과 분위기를 엿볼 수 있습니다.</div></div>
+      <div class="howto-caption">프레스 컨퍼런스</div></div>
+
+    <div class="howto-image-block">
+      <img src="free_practice.webp" alt="프리 프랙티스">
+      <div class="image-overlay">
+      <div class="overlay-text">금요일과 토요일 오전에 진행되는 세 번의 연습 세션입니다.<br>드라이버들은 차량 세팅을 조정하고, 서킷을 익히며, 타이어 전략을 시험합니다.<br>이 단계는 레이스 준비를 위한 중요한 시간으로, 실제 경기와는 무관한 기록입니다.</div></div>
+      <div class="howto-caption">프리 프랙티스</div></div>
+
+    <div class="howto-image-block">
+      <img src="Qualifying.webp" alt="퀄리파잉">
+      <div class="image-overlay">
+      <div class="overlay-text">토요일 오후에 열리며, 레이스의 출발 순서를 결정하는 세션입니다.<br>Q1, Q2, Q3 세 단계로 나뉘며, 각 단계에서 가장 느린 드라이버들이 탈락합니다.<br>최종적으로 가장 빠른 랩 타임을 기록한 드라이버가 폴 포지션을 차지합니다.</div></div>
+      <div class="howto-caption">퀄리파잉</div></div>
+
+    <div class="howto-image-block">
+      <img src="race.webp" alt="레이스">
+      <div class="image-overlay">
+      <div class="overlay-text">일요일에 열리는 메인 이벤트로, 정해진 랩 수를 가장 먼저 완주한 드라이버가 우승합니다.<br>전략, 피트 스톱, 날씨 등 다양한 요소가 결과에 영향을 미칩니다.<br>포인트는 상위 10위까지 주어지며, 시즌 챔피언십에 반영됩니다.</div></div>
+      <div class="howto-caption">레이스</div></div>
+
+    <div class="howto-final-text">
+      각 그랑프리마다 순위에 따라 차등하여 포인트를 부여하며 시즌 동안 획득한 포인트를 종합하여<br>
+      월드 챔피언을 결정합니다.
+    </div>
+  </section>
+</section>
+    </div>
+
+  </section>
+  <section class="team-section" id="f1-team">
+  <div class="section-title">
+    <div class="step">STEP 2</div>
+    <h2>F1 TEAM</h2>
+    <p>팀의 로고를 클릭해 각 팀에 대해 알아보세요</p>
+  </div>
+  <div class="team-grid">
+  </div>
+</section>
+ <section class="driver-section" id="drivers">
+    <div class="section-title">
+      <div class="step">STEP 3</div>
+      <h2>DRIVERS</h2>
+      <p>당신의 팀과 함께 드라이버들을 알아보세요</p>
+    </div>
+    <div class="driver-list"></div>
+  </section>
+  <section class="team-select-section">
+  <div class="section-title">
+    <div class="step">STEP 4</div>
+    <h2>CHOOSE YOUR TEAM</h2>
+    <p>당신의 팀을 선택하고 응원해보세요</p>
+  </div>
+  <div class="team-select-grid">
+    <button class="team-select-btn" data-team="mclaren"><img src="mclaren_white.svg" alt="McLaren"></button>
+    <button class="team-select-btn" data-team="ferrari"><img src="ferrari.svg" alt="Ferrari"></button>
+    <button class="team-select-btn" data-team="redbull"><img src="red_bull.svg" alt="Red Bull"></button>
+    <button class="team-select-btn" data-team="mercedes"><img src="benz.svg" alt="Mercedes"></button>
+    <button class="team-select-btn" data-team="aston_martin"><img src="aston_martin.svg" alt="Aston Martin"></button>
+    <button class="team-select-btn" data-team="alpine"><img src="alpine.svg" alt="Alpine"></button>
+    <button class="team-select-btn" data-team="haas"><img src="haas.svg" alt="Haas"></button>
+    <button class="team-select-btn" data-team="racing_bulls"><img src="racing_bulls.svg" alt="Racing Bulls"></button>
+    <button class="team-select-btn" data-team="williams"><img src="williams.svg" alt="Williams"></button>
+    <button class="team-select-btn" data-team="sauber"><img src="sauber.svg" alt="Sauber"></button>
+  </div>
+</section>
+<script>
+  window.onload = function () {
+    if (window.location.hash) {
+      history.replaceState(null, null, ' ');
+      window.scrollTo(0, 0);
+    }
+  };
+
+  function scrollToAbout() {
+    document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  const imageBlocks = document.querySelectorAll('.howto-image-block');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  imageBlocks.forEach(el => observer.observe(el));
+
+  const carObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.f1-car').forEach(car => {
+            car.classList.add('animate');
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const road = document.querySelector('.road');
+    if (road) {
+      carObserver.observe(road);
+    };
+
+  function scrollToAbout() {
+    document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+  }
+    function openModal(team) {
+    document.getElementById(`${team}-modal`).classList.add('show');
+  }
+
+    function closeModal(team) {
+      document.getElementById(`${team}-modal`).classList.remove('show');
+    }
+
+    function closeModalOutside(event, team) {
+      const modal = document.getElementById(`${team}-modal`);
+      if (event.target === modal) {
+        closeModal(team);
+      }
+    }
+    const teams = [
+    {
+      id: 'mclaren',
+       name: 'McLaren',
+      bgColor: '#FF8000',
+      modalColor: '#C45A00',
+      logo: 'mclaren.svg',
+      bigLogo: 'mclaren_big.svg',
+      desc: '2024년 컨스트럭터 챔피언인 맥라렌은 2025년에도 강력한 퍼포먼스를 이어가고 있다. 피아스트리는 최근 스페인 그랑프리에서 우승하며 드라이버 챔피언십 선두를 달리고 있으며, 노리스도 꾸준한 성적으로 팀의 든든한 지원군이 되고 있다.',
+      image: 'mclaren_modal.gif',
+      rank: '최근 시즌 성적 1위'
+    },
+    {
+      id: 'ferrari',
+      name: 'Ferrari',
+      bgColor: '#E80000',
+      modalColor: '#E8022E',  
+      logo: 'ferrari.svg',
+      bigLogo: 'ferrari_big.svg',
+      desc: '전통의 강호 페라리는 7회 월드 챔피언 루이스 해밀턴을 영입하여 르클레르와 함께 강력한 드라이버 라인업을 구성했다. 해밀턴은 메르세데스에서 12년간 활약한 후, 2025 시즌을 앞두고 페라리로 이적하였다.',
+      image: 'ferrari_modal.gif',
+      rank: '최근 시즌 성적 2위'
+    },
+    {
+      id: 'redbull',
+      name: 'Red Bull',
+      bgColor: '#001A30',
+      modalColor: '#002244',
+      logo: 'red_bull.svg',
+      bigLogo: 'red_bull_big.svg',
+      desc: '3연속 챔피언 막스 베르스타펜과 페르스타펜과 유키 츠노다로 라인업을 꾸리며 여전히 우승 후보로 꼽힌다. 츠노다는 시즌 도중 승격되어 새로운 시너지를 보여주고 있다. 기술력과 전략에서 여전히 독보적인 경쟁력을 유지하고 있다.',
+      image: 'redbull_modal.gif',
+      rank: '최근 시즌 성적 3위'
+    },
+    {
+      id: 'mercedes',
+      name: 'Mercedes',
+      bgColor: '#0DEAC9',
+      modalColor: '#025B52',
+      logo: 'benz.svg',
+      bigLogo: 'benz_big.svg',
+      desc: '루이스 해밀턴의 이적으로 인해 팀을 재정비 중이며, 러셀과 루키 안토넬리가 드라이버로 나선다. 안토넬리는 페라리 주니어 출신으로 기대를 모으는 신예이다. 한 시대를 풍미한 팀답게, 회복세를 위한 투자와 개발이 활발히 이루어지고 있다.',
+      image: 'benz_modal.gif',
+      rank: '최근 시즌 성적 4위'
+    },
+    {
+      id: 'aston_martin',
+      name: 'aston_martin',
+      bgColor: '#01594E',
+      modalColor: '#01594E',
+      logo: 'aston_martin.svg',
+      bigLogo: 'aston_martin_big.webp',
+      desc: '베테랑 페르난도 알론소와 랜스 스트롤이 3년째 호흡을 맞추고 있다. 기술 개발과 투자 확대를 통해 상위권 도약을 노리고 있다. 고급 브랜드 이미지와 어우러지는 프리미엄 전략이 돋보이는 팀이다.',
+      image: 'aston_modal.gif',
+      rank: '최근 시즌 성적 5위'
+    },
+    {
+      id: 'alpine',
+      name: 'Alpine',
+      bgColor: '#177BCD',
+      modalColor: '#177BCD',
+      logo: 'alpine.svg',
+      bigLogo: 'alpine_big.webp',
+      desc: '프랑스를 대표하는 팀으로, 피에르 가슬리와 루키 프랑코 콜라핀토가 드라이버로 활약 중이다. 젊은 피 수혈과 내부 구조 개편을 통해 재도약을 준비하고 있다. 르노 엔진을 기반으로 기술적 독립성을 강화하는 중이다.',
+      image: 'alpine_modal.gif',
+      rank: '최근 시즌 성적 6위'
+    },
+    {
+      id: 'haas',
+      name: 'Haas',
+      bgColor: '#3B3B3B',
+      modalColor: '#3B3B3B',
+      logo: 'haas.svg',
+      bigLogo: 'haas_big.webp',
+      desc: '미국 국적의 팀으로, 2025년에는 에스테반 오콘과 루키 올리버 베어만이 탑승한다. 페라리 엔진을 활용하면서도 자체 전략으로 존재감을 키워가고 있다. 중위권 도약을 위한 과감한 변화와 리빌딩을 시도 중이다.',
+      image: 'haas_modal.gif',
+      rank: '최근 시즌 성적 7위'
+    },
+    {
+      id: 'racing_bulls',
+      name: 'Racing_bulls',
+      bgColor: '#1734CD',
+      modalColor: '#001271',
+      logo: 'racing_bulls.svg',
+      bigLogo: 'racing_bulls_big.webp',
+      desc: '레드불의 세컨드 팀으로, 리암 로슨과 이삭 하자르가 라인업을 구성한다. 젊은 드라이버 육성과 테스트 베드 역할을 동시에 수행한다. 2024년부터 본격적인 브랜딩 개편으로 정체성을 강화하고 있다.',
+      image: 'rb_modal.gif',
+      rank: '최근 시즌 성적 8위'
+    },
+    {
+      id: 'williams',
+      name: 'Williams',
+      bgColor: '#F5F5F5',
+      modalColor: '#4D7FF4',
+      logo: 'williams.svg',
+      bigLogo: 'williams_big.svg',
+      desc: '카를로스 사인츠와 알렉산더 알본이 주행하며 기대 이상의 성과를 보이고 있다. 한때 하위권에 머물렀지만, 최근 몇 시즌 동안 꾸준히 경쟁력을 회복 중이다. 풍부한 전통과 명성을 다시 되찾기 위한 행보가 주목된다.',
+      image: 'williams_modal.gif',
+      rank: '최근 시즌 성적 9위'
+    },
+    {
+      id: 'sauber',
+      name: 'Sauber',
+      bgColor: '#00E701',
+      modalColor: '#059E06',
+      logo: 'sauber.svg',
+      bigLogo: 'sauber_big.svg',
+      desc: '아우디 합류를 앞두고 있는 과도기적 팀으로, 니코 휠켄베르크와 가브리엘 보르톨레토가 주행한다. 보르톨레토는 F2 챔피언 출신으로 F1 데뷔 시즌을 맞이하였다. 장기적인 아우디 팩토리 팀 전환을 목표로 전력을 다지고 있다.',
+      image: 'sauber_modal.jpg',
+      rank: '최근 시즌 성적 10위'
+    },
+  ];
+  const drivers = [
+  {
+    team: 'MCLAREN',
+    color: '#FF8000',
+    left: { name: '오스카 피아스트리', img: 'mclaren1.webp' },
+    right: { name: '랜드 노리스', img: 'mclaren2.webp' },
+    car: 'mclarencar.webp'
+  },
+  {
+    team: 'FERRARI',
+    color: '#E80000',
+    left: { name: '샤를 르클레르', img: 'ferrari1.webp' },
+    right: { name: '루이스 해밀턴', img: 'ferrari2.webp' },
+    car: 'ferraricar.webp'
+  },
+  {
+    team: 'REDBULL',
+    color: '#001A30',
+    left: { name: '막스 베르스타펜', img: 'redbull1.webp' },
+    right: { name: '츠노다 유키', img: 'redbull2.webp' },
+    car: 'redbullcar.webp'
+  },
+  {
+    team: 'MERCEDES',
+    color: '#0DEAC9',
+    left: { name: '조지 러셀', img: 'benz1.webp' },
+    right: { name: '안토넬리 키미', img: 'benz2.webp' },
+    car: 'benzcar.webp'
+  },
+  {
+    team: 'ASTON_MARTIN',
+    color: '#01594E',
+    left: { name: '페르난도 알론소', img: './aston1.webp' },   // ✅ 수정됨
+    right: { name: '랜스 스트롤', img: './aston2.webp' },        // ✅ 수정됨
+    car: 'astoncar.webp'
+  },
+  {
+    team: 'ALPINE',
+    color: '#177BCD',
+    left: { name: '피에르 가슬리', img: 'alpine1.webp' },
+    right: { name: '프랑코 콜라핀토', img: 'alpine2.webp' },
+    car: 'alpinecar.webp'
+  },
+  {
+    team: 'HAAS',
+    color: '#3B3B3B',
+    left: { name: '에스테반 오콘', img: 'haas1.webp' },
+    right: { name: '올리버 베어먼', img: 'haas2.webp' },
+    car: 'haascar.webp'
+  },
+  {
+    team: 'RACING_BULLS',
+    color: '#1734CD',
+    left: { name: '아이작 하자르', img: 'racingbulls1.webp' },
+    right: { name: '리암 로슨', img: 'racingbulls2.webp' },
+    car: 'racingbullscar.webp'
+  },
+  {
+    team: 'WILLIAMS',
+    color: '#F5F5F5',
+    left: { name: '알렉산더 알본', img: 'williams1.webp' },
+    right: { name: '카를로스 사인츠', img: 'williams2.webp' },
+    car: 'williamscar.webp'
+  },
+  {
+    team: 'SAUBER',
+    color: '#00E700',
+    left: { name: '니코 휠켄베르크', img: 'sauber1.webp' },
+    right: { name: '가브리에우 보르툴레', img: 'sauber2.webp' },
+    car: 'saubercar.webp'
+  }
+];
+
+  
+  const teamGrid = document.querySelector('.team-grid');
+  const teamSection = document.querySelector('.team-section');
+
+  teams.forEach(team => {
+    const card = document.createElement('div');
+    card.className = 'team-card';
+    card.style.backgroundColor = team.bgColor;
+    card.setAttribute('onclick', `openModal('${team.id}')`);
+    card.innerHTML = `<img src="${team.logo}" alt="${team.name}">`;
+    teamGrid.appendChild(card);
+
+    // 모달 생성
+    const modal = document.createElement('div');
+    modal.className = 'team-modal';
+    modal.id = `${team.id}-modal`;
+    modal.setAttribute('onclick', `closeModalOutside(event, '${team.id}')`);
+    const logoStyle = (team.id === 'sauber' || team.id === 'alpine') ? 'style="width: 210px;"' : '';
+
+    modal.innerHTML = `
+      <div class="modal-content" style="background: ${team.modalColor}" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="closeModal('${team.id}')">×</button>
+        <img class="team-big-logo" src="${team.bigLogo}" alt="${team.name} Big Logo" ${logoStyle}>
+        <p class="team-desc">${team.desc}</p>
+        <img class="team-img" src="${team.image}" alt="${team.name} Car Image">
+        <p class="team-rank">${team.rank}</p>
+      </div>
+    `;
+    teamSection.appendChild(modal);
+  });
+   const list = document.querySelector('.driver-list');
+drivers.forEach(team => {
+  const isBlackText = team.team === 'WILLIAMS';
+  const nameStyle = isBlackText ? 'style="color: black;"' : '';
+
+ 
+  const box = document.createElement('div');
+  box.className = 'driver-box';
+
+  box.innerHTML = `
+    <div class="team-name">${team.team}</div>
+    <div class="driver-bg" style="background-color: ${team.color};">
+      <img class="driver-img left" src="${team.left.img}" alt="${team.left.name}">
+      <img class="driver-img right" src="${team.right.img}" alt="${team.right.name}">
+      <p class="driver-name left" ${nameStyle}>${team.left.name}</p>
+      <p class="driver-name right" ${nameStyle}>${team.right.name}</p>
+    </div>
+    <div class="car-wrapper">
+      <img class="car-img" src="${team.car}" alt="${team.team} Car">
+      <div class="car-hint">Click!</div>
+    </div>
+  `;
+
+  list.appendChild(box);
+});
+
+document.querySelectorAll('.team-select-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const teamId = btn.getAttribute('data-team');
+   const selectedTeam = drivers.find(t =>
+  t.team.toLowerCase().replace(/[\s_]/g, '') === teamId.toLowerCase().replace(/[\s_]/g, '')
+);
+    if (selectedTeam) {
+      window.location.href = `team.html?team=${teamId}` +
+        `&d1=${selectedTeam.left.img}` +
+        `&d2=${selectedTeam.right.img}` +
+        `&n1=${encodeURIComponent(selectedTeam.left.name)}` +
+        `&n2=${encodeURIComponent(selectedTeam.right.name)}`;
+    }
+  });
+});
+ document.querySelectorAll('.car-img').forEach(car => {
+  car.addEventListener('click', () => {
+    car.classList.add('animate');
+
+    const hint = car.nextElementSibling; 
+    if (hint) {
+      hint.style.opacity = '0';
+    }
+
+    setTimeout(() => {
+      car.classList.remove('animate');
+      if (hint) {
+        hint.style.opacity = '1'; 
+      }
+    }, 1000);
+  });
+});
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const bgm = document.getElementById('bgm');
+
+    // 사용자가 어떤 동작을 한 후 재생되도록 (브라우저 정책 회피)
+    document.addEventListener('click', () => {
+      if (bgm.paused) {
+        bgm.volume = 0.3; // 볼륨 조절 가능 (0 ~ 1)
+        bgm.play().catch(e => console.log('BGM autoplay blocked:', e));
+      }
+    }, { once: true });
+  });
+    function toggleMute() {
+  const bgm = document.getElementById('bgm');
+  const btn = document.getElementById('mute-btn');
+  bgm.muted = !bgm.muted;
+  btn.textContent = bgm.muted ? '🔇' : '🔊';
+}
+
+
+
+  </script>
+</body>
+</html>
