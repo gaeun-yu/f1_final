@@ -75,7 +75,7 @@
 
     .car {
       position: absolute;
-      left: 60px; /* ✅ 좌측 정렬 */
+      left: 60px; 
       width: 160px;
       transition: left 1s ease-out;
     }
@@ -141,7 +141,7 @@
       position: relative;
       width: 100%;
       height: 550px;
-      background-image: url('road_texture.jpg'); /* 도로 배경 이미지 파일 */
+      background-image: url('road_texture.jpg'); 
       background-size: cover;
       background-position: center;
       overflow: hidden;
@@ -274,11 +274,10 @@ function startLights() {
 }
 
 function startGame() {
-  document.getElementById('ruleModal').style.display = 'none';  // 모달 숨기기
-  setTimeout(startLights, 500);  // 약간 여유를 두고 신호등 시작
+  document.getElementById('ruleModal').style.display = 'none';  
+  setTimeout(startLights, 500); 
 }
 
-// 게임 시작 후 스페이스바 입력 처리
 document.addEventListener('lightsout', () => {
   let raceStart = Date.now();
   const cars = document.querySelectorAll('.car');
@@ -291,7 +290,7 @@ document.addEventListener('lightsout', () => {
 
       let interval = setInterval(() => {
         let current = parseInt(playerCar.style.left || '60');
-        let next = current + 30; // 속도 증가
+        let next = current + 30; 
         playerCar.style.left = `${next}px`;
         if (next >= finishLine) {
           clearInterval(interval);
@@ -303,14 +302,13 @@ document.addEventListener('lightsout', () => {
     }
   });
 
-  // AI 차량 출발
   cars.forEach(car => {
     if (!car.classList.contains('player')) {
-      const delay = 100 + Math.random() * 500; // 0.3~1.3초 딜레이
+      const delay = 100 + Math.random() * 500; 
       setTimeout(() => {
         let interval = setInterval(() => {
           let current = parseInt(car.style.left || '60');
-          let next = current + (12 + Math.random() * 30); // 속도 증가
+          let next = current + (12 + Math.random() * 30); 
           car.style.left = `${next}px`;
           if (next >= finishLine) {
             clearInterval(interval);
@@ -335,20 +333,19 @@ function checkRaceEnd() {
     setTimeout(() => alert(message), 1200);
   }
 }
-// 처음에는 게임 시작 안 함
+
 let gameReady = false;
 
 function startGame() {
   document.getElementById('ruleModal').style.display = 'none';
   gameReady = true;
-  startLights(); // 기존 신호등 함수 실행
+  startLights(); 
 }
 
-// 스페이스바 눌렀을 때는 lightsOut && gameReady 조건 체크
+
 document.addEventListener('keydown', e => {
   if (e.code === 'Space' && lightsOut && gameReady && !hasStarted) {
     hasStarted = true;
-    // 자동차 이동 코드...
   }
 });
 </script>
